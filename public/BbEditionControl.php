@@ -42,6 +42,12 @@ class BbEditionControl {
 	protected $plugin_slug = 'bb-edition-control';
 
 	/**
+	 * Chave do metadado sobre edição em cada post
+	 * @var string
+	 */
+	public $postMetaKey = '_bb_edition_control';
+
+	/**
 	 * Instance of this class.
 	 *
 	 * @since    1.0.0
@@ -76,11 +82,25 @@ class BbEditionControl {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_styles' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
+		add_shortcode('bbec-list', array( $this, 'shortcode_editions_list' ) );
+		add_shortcode('bbec-combo', array( $this, 'shortcode_editions_combo' ) );
+		add_shortcode('bbec-active-name', array( $this, 'shortcode_active_name' ) );
+
 		/* Define custom functionality.
 		 * Refer To http://codex.wordpress.org/Plugin_API#Hooks.2C_Actions_and_Filters
 		 */
 		// add_action( '@TODO', array( $this, 'action_method_name' ) );
 		// add_filter( '@TODO', array( $this, 'filter_method_name' ) );
+		
+		add_action( 'init', array( $this, 'rewrite_rules' ) );
+
+		// add_action( 'template_redirect', array( $this, 'template_redirect' ) );
+		// add_action( 'rewrite_rules_array', array( $this, 'rewrite_rules' ) );
+
+		add_filter( 'query_vars', array( $this, 'query_vars' ) );
+		
+		// altera a query principal e adiciona restrição da edição
+		add_filter( 'pre_get_posts', array( $this, 'filter_pre_get_posts' ) );
 
 	}
 
@@ -291,6 +311,200 @@ class BbEditionControl {
 	 */
 	public function enqueue_scripts() {
 		wp_enqueue_script( $this->plugin_slug . '-plugin-script', plugins_url( 'assets/js/public.js', __FILE__ ), array( 'jquery' ), self::VERSION );
+	}
+
+	public function rewrite_rules($rules = array())
+	{
+		// var_dump( get_query_var('edition') );
+		// var_dump( $_GET['edition'] );
+		// 
+		add_rewrite_rule(  
+        '^edition/([^/]+)',  
+        'index.php?pagename=$matches[1]&id=$matches[2]',  
+        "top");
+
+        add_rewrite_rule('by\-date/([0-9]{4}\-[0-9]{2}\-[0-9]{2})$', 'index.php?post_type=event&event_date=$matches[1]', 'top');
+  //       $newrules = array();
+		// $newrules['(edition)/([^/]+)$'] = 'index.php?pagename=$matches[1]&id=$matches[2]';
+		// return $newrules + $rules;
+	}
+
+	public function query_vars($vars)
+	{
+		array_push($vars, 'edition');
+    	return $vars;
+	}
+
+	/**
+	 * Altera a query principal para filtrar os conteúdos da edição
+	 * @param  object $query
+	 * @return object
+	 */
+	public function filter_pre_get_posts($query)
+	{
+		if(! is_admin() && $query->is_main_query() ){
+		// echo "<pre>"; 
+		// var_dump( is_front_page() );
+		// echo "</pre>";
+		}
+		$query->set( 'is_by_edition', false );
+		if (! is_admin() && ! is_singular() && $query->is_main_query() && $this->checkValidTemplate($query) ) {
+
+			$edition = $this->getEdition();			
+
+			// $query->set( 'post_type', 'event' );
+			// $query->set( 'post_status', 'publish' );
+			// $query->set( 'orderby', 'meta_value' );
+			// $query->set( 'order', 'ASC' );
+			// $query->set( 'post_per_page', -1 );
+			$query->set( 'is_by_edition', true );
+			$query->set( 'meta_key', $this->postMetaKey );
+
+			$meta_query = array(
+				array(
+					'key' => $this->postMetaKey,
+					'value' => $edition->id, // get_query_var( 'event_date' )
+					'type' => 'NUMERIC',
+					'compare' => '='
+					)
+				);
+
+			$query->set( 'meta_query', $meta_query );
+		}
+
+    	return $query;
+	}
+
+	/**
+	 * Retorna a última edição, ou a que estiver ativa
+	 * @return object Edição
+	 */
+	public function getEdition( $specific = null)
+	{
+		if( strtolower($specific) === 'latest')
+		{
+			$edition = $this->DB->getLatest();
+		}
+		else
+		{
+			// @todo verifica se a url tem uma edição
+			// senão pega a última
+			$edition = $this->DB->getLatest();			
+		}
+		return $edition;
+	}
+
+	/**
+	 * Verifica se a query atual permite usar o filtro de edições
+	 * @param  object $query 
+	 * @return bool
+	 */
+	private function checkValidTemplate($query)
+	{
+		$templates = get_option('bbec-templates');
+
+		$passed = false;
+		for($x = 0; $x < count($templates); $x++)
+		{
+			$tmpl = $templates[$x];
+			// verifica se a query valida este template
+			if($query->$tmpl){
+				$passed = true;
+				break;
+			}
+		}
+
+		return $passed;
+	}
+
+	public function template_redirect()
+	{
+		if( isset($_GET['edition']) )
+		{
+			$template_filename = TEMPLATEPATH. "/edition.php";
+			if ( file_exists($template_filename) )
+			{
+				load_template($template_filename);
+				return;
+				// exit;
+			}
+			
+		}
+	}
+
+	/**
+	 * Gera lista não ordenada das edições
+	 * @param  array  $atts Opções
+	 * @return string
+	 */
+	public function shortcode_editions_list($atts)
+	{
+		$editions = $this->DB->getActive();
+
+		if( count($editions) === 0 ){
+			return '';
+		}
+
+		$opt = array_merge(array(
+			'id' => '',
+			'class' => 'bb-edition-control',
+		), (array)$atts);
+
+		$id = ($opt['id']) ? "id=\"{$opt['id']}\"" : '';
+
+		$h = "<ul {$id} class=\"{$opt['class']}\">";
+
+		foreach ($editions as $e):
+
+			$h .= "<li><a href=\"{$e->slug}\">{$e->name}</a></li>";
+
+		endforeach;
+
+		$h .= '</ul>';
+		return $h;
+	}
+
+	/**
+	 * Gera combobox com as edições ativas
+	 * @param  array $atts Opções
+	 * @return string
+	 */
+	public function shortcode_editions_combo($atts)
+	{
+		$editions = $this->DB->getActive();
+
+		if( count($editions) === 0 ){
+			return '';
+		}
+
+		$opt = array_merge(array(
+			'id' => '',
+			'class' => 'bb-edition-control',
+			'name' => 'edition',
+		), (array)$atts);
+
+		$id = ($opt['id']) ? "id=\"{$opt['id']}\"" : '';
+
+		$h = "<select {$id} class=\"{$opt['class']}\" name=\"{$opt['name']}\">";
+
+		foreach ($editions as $e):
+
+			$h .= "<option value=\"{$e->slug}\">{$e->name}</option>";
+
+		endforeach;
+
+		$h .= '</select>';
+		return $h;
+	}
+
+	/**
+	 * Retorna o nome da edição ativa
+	 * @return string
+	 */
+	public function shortcode_active_name()
+	{
+		$ed = $this->getEdition();
+		return ($ed) ? $ed->name : '';
 	}
 
 	/**

@@ -31,4 +31,53 @@ class Str {
         return $h;
     }
 
+    static function templatesCombo($selected = array())
+    {
+
+        $options = array(
+            'is_home' => 'Home',
+            'is_date' => 'Date',
+            'is_attachment' => 'Attachment',
+            'is_archive' => 'Archive',
+            'is_category' => 'Category',
+            'is_search' => 'Search',
+            'is_tag' => 'Tags',
+        );
+        
+        return self::multiple('templates', $options, $selected);
+    }
+
+    static function postTypesCombo($selected = array())
+    {
+        $post_types = get_post_types();
+        unset($post_types['revision']);
+        unset($post_types['nav_menu_item']);
+        unset($post_types['attachment']);
+        
+        return self::multiple('posttypes', $post_types, $selected);
+    }
+
+    /**
+     * Método primitivo para combobox multiple
+     * @param  string $name     
+     * @param  array  $options  
+     * @param  array  $selected 
+     * @return string
+     */
+    static function multiple($name = '', $options = array(), $selected = array())
+    {
+        if(! is_array($selected)){
+            $selected = (array)$selected;
+        }
+        $h = "<select name=\"{$name}[]\" id=\"field_{$name}\" multiple=\"multiple\">";
+
+        foreach($options as $idx => $lbl)
+        {
+            $h .= "<option value=\"{$idx}\" ".( (in_array($idx, $selected))?'selected':'').">{$lbl}</option>";            
+        }
+        $h .= '</select>';
+
+        return $h;
+    }
+
 }

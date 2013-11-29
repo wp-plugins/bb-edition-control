@@ -23,6 +23,12 @@ class BbEditionControlDb {
         'status' => 'number|required',
     );
 
+    /**
+     * Objeto da edição mais recente
+     * @var [type]
+     */
+    static protected $latest = null;
+
     public function __construct()
     {
         global $wpdb;
@@ -160,6 +166,23 @@ class BbEditionControlDb {
             
     }
 
+    /**
+     * retorna a última edição... mais recente
+     * @return object
+     */
+    public function getLatest()
+    {
+        global $wpdb;
+
+        if(self::$latest !== null){
+            return self::$latest;
+        }
+
+        $l = $wpdb->get_results("SELECT * FROM {$this->getTable()} WHERE status = '1' ORDER BY date DESC LIMIT 1");
+        self::$latest = $l[0];
+        return self::$latest;
+    }
+
 
     /**
      * Retorna a edição pelo ID
@@ -228,6 +251,24 @@ class BbEditionControlDb {
             update_post_meta( $postId, '_bb_edition_control', $editionId );
         }
 
+    }
+
+    /**
+     * Salva opções do plugin
+     * @param  array $formData $_POST
+     * @return bool
+     */
+    public function saveOptions($formData)
+    {
+        // templates em que serão aplicados os filtros pela edição
+        $templates = (! isset($formData['templates'])) ? array('Home') : $formData['templates'];
+        update_option('bbec-templates', $templates);
+
+        // post types que serão filtrados pela edição
+        $posttypes = (! isset($formData['posttypes'])) ? array('Home') : $formData['posttypes'];
+        update_option('bbec-posttypes', $posttypes);
+        
+        return true;
     }
 
     /**

@@ -14,6 +14,22 @@ Plugin para categorizar todo conteúdo em edições, como em um jornal.
 
 Plugin para categorizar todo conteúdo em edições, como em um jornal.
 
+= Shortcodes =
+[bbec-combo] Build a dropdown with the editions to choose
+'Options:' id, class, name
+
+[bbec-list] Build a unordered list with the editions to choose
+'Options:' id, class
+
+= Template Helpers = 
+`bbec_current_edition( $field = null )` Returns the current edition object, or a specific field.
+
+`bbec_latest_edition( $field = null )` Returns the latest edition object, or a specific field.
+
+= Languages = 
+English (default)
+Português Brasil (pt_BR)
+
 == Installation ==
 
 This section describes how to install the plugin and get it working.
@@ -45,13 +61,11 @@ e.g.
 
 == Screenshots ==
 
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
-the /assets directory or the directory that contains the stable readme.txt (tags or trunk). Screenshots in the /assets
-directory take precedence. For example, `/assets/screenshot-1.png` would win over `/tags/4.3/screenshot-1.png`
-(or jpg, jpeg, gif).
-2. This is the second screen shot
+1. List os editions
+2. Form to create new edition
+3. Plugin options
 
 == Changelog ==
 
-= 1.0 =
+= 1.0.0 =
 * First commit

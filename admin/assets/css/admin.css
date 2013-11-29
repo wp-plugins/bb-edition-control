@@ -3,3 +3,8 @@
 .regular-text{
     width: 80%;
 }
+
+.wp-admin select[multiple]{
+    width: 25%;
+height: 100px;
+}

@@ -36,6 +36,7 @@ if ( ! defined( 'WPINC' ) ) {
  */
 require_once( plugin_dir_path( __FILE__ ) . 'public/BbEditionControl.php' );
 require_once( plugin_dir_path( __FILE__ ) . 'public/BbEditionControlDb.php' );
+require_once( plugin_dir_path( __FILE__ ) . 'public/includes/helpers.php' );
 
 
 

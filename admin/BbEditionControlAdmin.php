@@ -103,7 +103,7 @@ class BbEditionControlAdmin {
 		add_action( 'load-edit.php', array( $this, 'action_load_sortable_columns' ) );
 
 		// Add a column to the edit post list
-		add_filter( 'manage_posts_columns', array( $this, 'filter_add_new_columns' ), 10, 2);
+		add_action( 'admin_init', array( $this, 'add_filter_add_new_columns' ), 10 );
 
 		// register column sortable
 		add_filter( 'manage_edit-post_sortable_columns', array( $this, 'filter_register_sortable_columns' ) );
@@ -192,7 +192,8 @@ class BbEditionControlAdmin {
 	 */
 	public function add_meta_box($postType)
 	{
-		if ( current_user_can('manage_options') && $postType !== 'page' )
+		$postTypes = get_option('bbec-posttypes');
+		if ( current_user_can('manage_options') &&  in_array($postType, $postTypes) )
 		{
 			//add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );			
 			add_meta_box($this->plugin_slug, __('Edition', $this->plugin_slug), array($this, "render_meta_box"), $postType, 'side', 'high');
@@ -262,6 +263,10 @@ class BbEditionControlAdmin {
 		{
 			include_once( 'views/new.php' );
 		}
+		else if( $this->getTab() == 'options' )
+		{
+			include_once( 'views/options.php' );
+		}
 		else
 		{
 			$list = $this->DB->getAll();
@@ -287,32 +292,6 @@ class BbEditionControlAdmin {
 	}
 
 	/**
-	 * NOTE:     Actions are points in the execution of a page or process
-	 *           lifecycle that WordPress fires.
-	 *
-	 *           Actions:    http://codex.wordpress.org/Plugin_API#Actions
-	 *           Reference:  http://codex.wordpress.org/Plugin_API/Action_Reference
-	 *
-	 * @since    1.0.0
-	 */
-	public function action_form_add_new() {
-
-		register_setting('bb_settings', 'bb_settings', array(&$this, 'validate'));
-
-		// General Settings
-		add_settings_section('general_section', __('Add New Edition', $this->plugin_slug), 'bbform::section_description', 'bb_generate_add_new');
-
-		add_settings_field('date', 'Date', 'bbform::textbox', 'bb_generate_add_new', 'general_section', 
-			array('id' => 'field_date', 'text' => 'Date of publication', 'settings' => 'bb_settings'));
-
-		add_settings_field('checkbox_field', 'Checkbox Field', 'bbform::checkbox', 'bb_generate_add_new', 'general_section', 
-			array('id' => 'checkbox_field', 'text' => '', 'settings' => 'bb_settings'));
-
-		add_settings_field('textarea_field', 'Textbox Field', 'bbform::textarea', 'bb_generate_add_new', 'general_section', 
-			array('id' => 'textarea_field', 'settings' => 'bb_settings'));
-	}
-
-	/**
 	 * Verifica requisições dos formulários e executa métodos correspondentes
 	 * @return void
 	 */
@@ -327,9 +306,7 @@ class BbEditionControlAdmin {
 				{
 					echo $this->message('Edition saved', 'updated');
 				}
-			} 
-			catch (Exception $e)
-			{
+			} catch (Exception $e) {
 				echo $this->message($e->getMessage(), 'error');
 			}
 		}
@@ -342,11 +319,23 @@ class BbEditionControlAdmin {
 				{
 					echo $this->message('Edition saved', 'updated');
 				}
-			} 
-			catch (Exception $e)
-			{
+			} catch (Exception $e) {
 				echo $this->message($e->getMessage(), 'error');
 			}			
+		}
+		// atualiza opções do plugin
+		else if(isset($_POST['bb_options_hidden']) && $_POST['bb_options_hidden'] === 'Y')
+		{
+			// $this->dd($_POST);
+			try {
+				$save = $this->DB->saveOptions($_POST);
+				if( $save )
+				{
+					echo $this->message('Options saved', 'updated');
+				}
+			} catch (Exception $e) {
+				echo $this->message($e->getMessage(), 'error');
+			}
 		}
 	}
 
@@ -458,12 +447,32 @@ class BbEditionControlAdmin {
 	}
 
 	/**
+	 * Cria os filtros para coluna personalizada nos posttypes configurados
+	 */
+	public function add_filter_add_new_columns()
+	{
+		$posttypes = get_option('bbec-posttypes');
+
+		for($x = 0; $x < count($posttypes); $x++)
+		{
+			$pt = $posttypes[$x];
+			add_filter( 'manage_'.$pt.'_posts_columns', array( $this, 'filter_add_new_columns' ), 10, 2);			
+		}
+	}
+
+	/**
 	 * Add new columns to the post table
 	 *
 	 * @param array $columns Current columns on the list post
 	 */
-	public function filter_add_new_columns( $columns ) {
-		// $this->dd($columns);
+	public function filter_add_new_columns( $columns, $e ) {
+		global $post;
+
+		// var_dump($post);
+		
+
+		// 
+		// if(){}
 		$column_meta = array( 'edition' => __('Edition', $this->plugin_slug) );
 		// position
 		$columns = array_slice( $columns, 0, 2, true ) + $column_meta + array_slice( $columns, 2, NULL, true );
@@ -515,6 +524,7 @@ class BbEditionControlAdmin {
 	 */
 	public function filter_sortable_columns($vars = '')
 	{
+		// return $vars;
 		// check correct post types
 		if ( isset( $vars['post_type'] ) && 'page' !== $vars['post_type'] ) {
 
