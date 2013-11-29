@@ -8,6 +8,7 @@ Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
+Plugin to group the content in editions, as magazines and jornals do.
 Plugin para categorizar todo conteúdo em edições, como em um jornal.
 
 == Description ==
@@ -22,13 +23,17 @@ Plugin para categorizar todo conteúdo em edições, como em um jornal.
 'Options:' id, class
 
 = Template Helpers = 
-`bbec_current_edition( $field = null )` Returns the current edition object, or a specific field.
 
-`bbec_latest_edition( $field = null )` Returns the latest edition object, or a specific field.
+    // Returns the current edition object, or a specific field.
+    bbec_current_edition( $field = null )
+
+    // Returns the latest edition object, or a specific field.
+    bbec_latest_edition( $field = null )
+
 
 = Languages = 
-English (default)
-Português Brasil (pt_BR)
+- English (default)
+- Português Brasil (pt_BR)
 
 == Installation ==
 
@@ -61,11 +66,16 @@ e.g.
 
 == Screenshots ==
 
-1. List os editions
+1. List of editions
 2. Form to create new edition
 3. Plugin options
 
 == Changelog ==
+
+= 1.1.0 =
+* New options panel
+* Screenshots
+* New helper functions
 
 = 1.0.0 =
 * First commit
