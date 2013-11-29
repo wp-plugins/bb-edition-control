@@ -2,6 +2,7 @@
 Contributors: Bruno Barros
 Donate link: http://brunobarros.com/
 Tags: edition, control. magazine, jornal
+Version: 1.1.0
 Requires at least: 3.5.1
 Tested up to: 3.7.1
 Stable tag: trunk
@@ -16,11 +17,12 @@ Plugin para categorizar todo conteúdo em edições, como em um jornal.
 Plugin para categorizar todo conteúdo em edições, como em um jornal.
 
 = Shortcodes =
-[bbec-combo] Build a dropdown with the editions to choose
+[bbec-combo] Build a dropdown with the editions to choose.
 'Options:' id, class, name
 
-[bbec-list] Build a unordered list with the editions to choose
+[bbec-list] Build a unordered list with the editions to choose.
 'Options:' id, class
+
 
 = Template Helpers = 
 
@@ -34,6 +36,7 @@ Plugin para categorizar todo conteúdo em edições, como em um jornal.
 = Languages = 
 - English (default)
 - Português Brasil (pt_BR)
+
 
 == Installation ==
 
@@ -69,6 +72,7 @@ e.g.
 1. List of editions
 2. Form to create new edition
 3. Plugin options
+
 
 == Changelog ==
 
