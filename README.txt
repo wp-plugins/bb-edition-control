@@ -75,6 +75,9 @@ e.g.
 
 == Changelog ==
 
+= 1.1.1 =
+* Fix array conversion in `admin/BbEditionControlAdmin.php`
+
 = 1.1.0 =
 * New options panel
 * Screenshots
