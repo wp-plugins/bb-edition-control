@@ -2,10 +2,9 @@
 Contributors: Bruno Barros
 Donate link: http://brunobarros.com/
 Tags: edition, control. magazine, jornal
-Version: 1.1.0
 Requires at least: 3.5.1
 Tested up to: 3.7.1
-Stable tag: trunk
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
