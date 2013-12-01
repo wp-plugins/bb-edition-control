@@ -10,16 +10,15 @@
  *
  * @wordpress-plugin
  * Plugin Name:       BB Edition Control
- * Plugin URI:        https://github.com/bruno-barros/BB-Edition-Control-for-Wordpress
+ * Plugin URI:        http://wordpress.org/plugins/bb-edition-control/
  * Description:       Plugin para categorizar todo conteúdo em edições, como em um jornal.
- * Version:           1.0.0
+ * Version:           1.1.1
  * Author:            Bruno Barros
  * Author URI:        http://brunobarros.com
  * Text Domain:       bb-edition-control
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Domain Path:       /languages
- * GitHub Plugin URI: https://github.com/bruno-barros/BB-Edition-Control-for-Wordpress
  */
 
 // If this file is called directly, abort.
