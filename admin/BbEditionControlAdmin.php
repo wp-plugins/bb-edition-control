@@ -193,7 +193,7 @@ class BbEditionControlAdmin {
 	public function add_meta_box($postType)
 	{
 		$postTypes = get_option('bbec-posttypes');
-		if ( current_user_can('manage_options') &&  in_array($postType, $postTypes) )
+		if ( current_user_can('manage_options') &&  in_array($postType, (array)$postTypes) )
 		{
 			//add_meta_box( $id, $title, $callback, $post_type, $context, $priority, $callback_args );			
 			add_meta_box($this->plugin_slug, __('Edition', $this->plugin_slug), array($this, "render_meta_box"), $postType, 'side', 'high');
