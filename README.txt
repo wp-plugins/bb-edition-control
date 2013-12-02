@@ -16,13 +16,15 @@ Plugin para categorizar todo conteúdo em edições, como em um jornal.
 Plugin para categorizar todo conteúdo em edições, como em um jornal.
 
 = Shortcodes =
-[bbec-combo] Build a dropdown with the editions to choose.
-`Options: id, class, name`
+`[bbec-combo] Build a dropdown with the editions to choose.
+Options: id, class, name`
 
-[bbec-list] Build a unordered list with the editions to choose.
-`Options: id, class`
 
-[bbec-active-name] Show the name of the current edition.
+`[bbec-list] Build a unordered list with the editions to choose.
+Options: id, class`
+
+
+`[bbec-active-name] Show the name of the current edition.`
 
 
 
@@ -30,6 +32,7 @@ Plugin para categorizar todo conteúdo em edições, como em um jornal.
 
     // Returns the current edition object, or a specific field.
     bbec_current_edition( $field = null )
+
 
     // Returns the latest edition object, or a specific field.
     bbec_latest_edition( $field = null )
