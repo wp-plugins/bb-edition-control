@@ -4,7 +4,7 @@ Donate link: http://brunobarros.com/
 Tags: edition, control. magazine, jornal
 Requires at least: 3.5.1
 Tested up to: 3.7.1
-Stable tag: 1.1.1
+Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,10 +17,13 @@ Plugin para categorizar todo conteúdo em edições, como em um jornal.
 
 = Shortcodes =
 [bbec-combo] Build a dropdown with the editions to choose.
-'Options:' id, class, name
+`Options: id, class, name`
 
 [bbec-list] Build a unordered list with the editions to choose.
-'Options:' id, class
+`Options: id, class`
+
+[bbec-active-name] Show the name of the current edition.
+
 
 
 = Template Helpers = 
@@ -74,6 +77,12 @@ e.g.
 
 
 == Changelog ==
+
+= 1.2.0 =
+* Option to configure the URI to show editions
+* The same URI string defines a custom post type, so we can have a `archive-slug.php` template
+* On admin panel added a link to see the personalized editions page (above)
+* Added shortcode [bbec-active-name]
 
 = 1.1.1 =
 * Fix array conversion in `admin/BbEditionControlAdmin.php`

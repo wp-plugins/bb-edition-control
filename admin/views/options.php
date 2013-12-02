@@ -20,6 +20,21 @@
     <table class="form-table">
  
         <tr valign="top">
+            <th scope="row"><label for="field_posttype"><?php _e('Post type slug', $this->plugin_slug)?></label>
+                <br>
+                <small><?php _e('The URI to the personalized template to show editions content.', $this->plugin_slug)?></small>
+                <br>
+                <small><?php _e('Keep in mind then the template archive-<i>edition</i>.php must match this slug.', $this->plugin_slug)?></small>
+                <br>
+                <small><?php _e('After change this value go to <b>Settings > Permalinks</b> and save to flush the rules.', $this->plugin_slug)?></small>
+            </th>
+            <td>
+                <input type="text" name="posttype" id="field_posttype" class="" value="<?php echo get_option( 'bbec-posttype', 'edition' )?>">
+
+                <span class="light-txt"><?php bloginfo('url') ?>/</span><span><?php echo get_option( 'bbec-posttype', 'edition' )?></span><span class="light-txt">/edition-slug</span>
+            </td>
+        </tr>
+        <tr valign="top">
             <th scope="row"><label for="field_templates"><?php _e('Apply filter in templates', $this->plugin_slug)?></label>
                 <br>
                 <small><?php _e('The posts will be filtered by editions only on main loop. By default is only applied in home.', $this->plugin_slug)?></small>

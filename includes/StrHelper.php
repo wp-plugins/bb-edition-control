@@ -53,6 +53,7 @@ class Str {
         unset($post_types['revision']);
         unset($post_types['nav_menu_item']);
         unset($post_types['attachment']);
+        unset($post_types[get_option('bbec-posttype', 'edition')]);// já é usada pelo plugin como um template especial
         
         return self::multiple('posttypes', $post_types, $selected);
     }

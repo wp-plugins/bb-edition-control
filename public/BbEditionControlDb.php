@@ -186,14 +186,20 @@ class BbEditionControlDb {
 
     /**
      * Retorna a edição pelo ID
-     * @param  int $id
+     * @param  int $idSlug
      * @return object
      */
-    public function get($id = null)
+    public function get($idSlug = null)
     {
         global $wpdb;
 
-        $l = $wpdb->get_results("SELECT * FROM {$this->getTable()} WHERE id={$id}");
+        if( is_numeric($idSlug) ){
+            $by = "id = {$idSlug}";
+        } else {
+            $by = "slug = '{$idSlug}'";            
+        }
+
+        $l = $wpdb->get_results("SELECT * FROM {$this->getTable()} WHERE {$by}");
 
         return ($l) ? $l[0] : null;
     }
@@ -260,6 +266,10 @@ class BbEditionControlDb {
      */
     public function saveOptions($formData)
     {
+        // post types que serão filtrados pela edição
+        $posttype = (! isset($formData['posttype'])) ? 'edition' : $formData['posttype'];
+        update_option('bbec-posttype', $posttype);
+
         // templates em que serão aplicados os filtros pela edição
         $templates = (! isset($formData['templates'])) ? array('Home') : $formData['templates'];
         update_option('bbec-templates', $templates);

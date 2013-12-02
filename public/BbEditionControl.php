@@ -48,6 +48,12 @@ class BbEditionControl {
 	public $postMetaKey = '_bb_edition_control';
 
 	/**
+	 * Identificador do posttype e da uri, por consequência do template
+	 * @var string
+	 */
+	public $postTypeId = 'edition';
+
+	/**
 	 * Instance of this class.
 	 *
 	 * @since    1.0.0
@@ -69,6 +75,8 @@ class BbEditionControl {
 	 * @since     1.0.0
 	 */
 	private function __construct() {
+
+		$this->postTypeId = get_option( 'bbec-posttype', 'edition' );
 
 		$this->DB = new BbEditionControlDb();
 
@@ -92,6 +100,7 @@ class BbEditionControl {
 		// add_action( '@TODO', array( $this, 'action_method_name' ) );
 		// add_filter( '@TODO', array( $this, 'filter_method_name' ) );
 		
+		add_action( 'init', array( $this, 'register_taxonomy' ) );
 		add_action( 'init', array( $this, 'rewrite_rules' ) );
 
 		// add_action( 'template_redirect', array( $this, 'template_redirect' ) );
@@ -313,25 +322,66 @@ class BbEditionControl {
 		wp_enqueue_script( $this->plugin_slug . '-plugin-script', plugins_url( 'assets/js/public.js', __FILE__ ), array( 'jquery' ), self::VERSION );
 	}
 
+	/**
+	 * Cria taxonimia para poder utilizar o template archive-edition.php
+	 * @return void
+	 */
+	public function register_taxonomy()
+	{
+		 $labels = array(
+		    'menu_name' => 'Editions',
+		    'name' => 'Edition',
+		    'singular_name' => 'Edition'
+		);
+
+		$args = array(
+		    'labels' => $labels,
+		    'description' => '',
+		    'public' => true,
+		    'publicly_queryable' => true,
+		    'exclude_from_search' => false,
+		    'show_ui' => false, 
+		    'show_in_menu' => true, 
+		    'menu_icon' => null,
+		    'query_var' => true,
+		    'rewrite' => array( 'slug' => $this->postTypeId ),
+		    'capability_type' => 'page', // post|page
+		    'has_archive' => true, 
+		    'hierarchical' => false,
+		    'menu_position' => 4,
+		    'supports' => array( 'title', 'editor', 'excerpt', 'trackbacks', 'custom-fields', 'page-attributes')
+		); 
+
+		register_post_type( $this->postTypeId, $args );
+	}
+
+	/**
+	 * Retorna a url absoluta para a página personalizada de edições
+	 * @param  string $slug 
+	 * @return string
+	 */
+	public function getEditionUrl($slug = '')
+	{
+		return get_bloginfo('url') . '/' . $this->postTypeId . '/' . trim($slug, '/');
+	}
+
+	/**
+	 * Url personalizadas [description]
+	 * @return void
+	 */
 	public function rewrite_rules($rules = array())
 	{
-		// var_dump( get_query_var('edition') );
-		// var_dump( $_GET['edition'] );
-		// 
 		add_rewrite_rule(  
-        '^edition/([^/]+)',  
-        'index.php?pagename=$matches[1]&id=$matches[2]',  
+        $this->postTypeId . '/(\S+)/?$',  
+        'index.php?post_type='.$this->postTypeId.'&edition_id=$matches[1]',  
         "top");
 
-        add_rewrite_rule('by\-date/([0-9]{4}\-[0-9]{2}\-[0-9]{2})$', 'index.php?post_type=event&event_date=$matches[1]', 'top');
-  //       $newrules = array();
-		// $newrules['(edition)/([^/]+)$'] = 'index.php?pagename=$matches[1]&id=$matches[2]';
-		// return $newrules + $rules;
+        add_rewrite_tag( '%edition_id%', '(\S+)');
 	}
 
 	public function query_vars($vars)
 	{
-		array_push($vars, 'edition');
+		array_push($vars, 'edition_id');
     	return $vars;
 	}
 
@@ -348,7 +398,11 @@ class BbEditionControl {
 		// echo "</pre>";
 		}
 		$query->set( 'is_by_edition', false );
-		if (! is_admin() && ! is_singular() && $query->is_main_query() && $this->checkValidTemplate($query) ) {
+		if (! is_admin() 
+			&& ! is_singular() 
+			&& $query->is_main_query() 
+			&& ($this->checkValidTemplate($query) || is_archive($this->postTypeId) ) 
+		) {
 
 			$edition = $this->getEdition();			
 
@@ -387,9 +441,22 @@ class BbEditionControl {
 		}
 		else
 		{
-			// @todo verifica se a url tem uma edição
+			// verifica se a url tem uma edição
+			if(get_query_var( 'edition_id' ))
+			{
+				$edition = $this->DB->get(get_query_var( 'edition_id' ));
+
+				// para se sertificar de não haver retorno de erro com uma slug incorreta
+				if( is_null($edition) )
+				{
+					$edition = $this->DB->getLatest();
+				}
+			}
 			// senão pega a última
-			$edition = $this->DB->getLatest();			
+			else
+			{
+				$edition = $this->DB->getLatest();				
+			}
 		}
 		return $edition;
 	}
@@ -456,7 +523,7 @@ class BbEditionControl {
 
 		foreach ($editions as $e):
 
-			$h .= "<li><a href=\"{$e->slug}\">{$e->name}</a></li>";
+			$h .= "<li><a href=\"{$this->getEditionUrl($e->slug)}\">{$e->name}</a></li>";
 
 		endforeach;
 
@@ -489,7 +556,7 @@ class BbEditionControl {
 
 		foreach ($editions as $e):
 
-			$h .= "<option value=\"{$e->slug}\">{$e->name}</option>";
+			$h .= "<option value=\"{$this->getEditionUrl($e->slug)}\">{$e->name}</option>";
 
 		endforeach;
 

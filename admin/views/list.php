@@ -18,6 +18,7 @@
             <th><?php _e('Date', $this->plugin_slug)?></th>
             <th><?php _e('Number', $this->plugin_slug)?></th>
             <th><?php _e('Name', $this->plugin_slug)?></th>       
+            <th><?php _e('Slug', $this->plugin_slug)?></th>       
             <th><?php _e('Status', $this->plugin_slug)?></th>
             <th></th>
         </tr>
@@ -27,6 +28,7 @@
         <th><?php _e('Date', $this->plugin_slug)?></th>
         <th><?php _e('Number', $this->plugin_slug)?></th>
         <th><?php _e('Name', $this->plugin_slug)?></th>
+        <th><?php _e('Slug', $this->plugin_slug)?></th>
         <th><?php _e('Status', $this->plugin_slug)?></th>
         <th></th>
         </tr>
@@ -42,8 +44,13 @@
          <td><?php echo Date::pt($item->date)?></td>
          <td><?php echo $item->number?></td>
          <td><?php echo $item->name?></td>
+         <td><?php echo $item->slug?></td>
          <td><?php echo Str::statusLbl($item->status)?></td>
-         <td><a href="<?php echo $this->url('edit='.$item->id)?>"><?php _e('edit', $this->plugin_slug)?></a></td>
+         <td>
+            <a href="<?php echo $this->url('edit='.$item->id)?>"><?php _e('edit', $this->plugin_slug)?></a> | 
+            <a href="<?php echo get_bloginfo('url') .'/'. get_option( 'bbec-posttype', 'edition' ) .'/'. $item->slug?>">ver</a>
+
+        </td>
        </tr>
         
 
