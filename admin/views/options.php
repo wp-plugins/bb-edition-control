@@ -24,7 +24,7 @@
                 <br>
                 <small><?php _e('The URI to the personalized template to show editions content.', $this->plugin_slug)?></small>
                 <br>
-                <small><?php _e('Keep in mind then the template archive-<i>edition</i>.php must match this slug.', $this->plugin_slug)?></small>
+                <small><?php _e('Template: archive-edition-control.php.', $this->plugin_slug)?></small>
                 <br>
                 <small><?php _e('After change this value go to <b>Settings > Permalinks</b> and save to flush the rules.', $this->plugin_slug)?></small>
             </th>

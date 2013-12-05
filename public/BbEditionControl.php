@@ -48,10 +48,16 @@ class BbEditionControl {
 	public $postMetaKey = '_bb_edition_control';
 
 	/**
-	 * Identificador do posttype e da uri, por consequência do template
+	 * Uri (slug) do post type $posyTypeId
 	 * @var string
 	 */
-	public $postTypeId = 'edition';
+	public $postTypeUri = 'edition';
+
+	/**
+	 * Identificador do post type de edições
+	 * @var string
+	 */
+	public $postTypeId = 'edition-control';
 
 	/**
 	 * Instance of this class.
@@ -76,7 +82,7 @@ class BbEditionControl {
 	 */
 	private function __construct() {
 
-		$this->postTypeId = get_option( 'bbec-posttype', 'edition' );
+		$this->postTypeUri = get_option( 'bbec-posttype', 'edition' );
 
 		$this->DB = new BbEditionControlDb();
 
@@ -344,7 +350,7 @@ class BbEditionControl {
 		    'show_in_menu' => true, 
 		    'menu_icon' => null,
 		    'query_var' => true,
-		    'rewrite' => array( 'slug' => $this->postTypeId ),
+		    'rewrite' => array( 'slug' => $this->postTypeUri ),
 		    'capability_type' => 'page', // post|page
 		    'has_archive' => true, 
 		    'hierarchical' => false,
@@ -362,7 +368,7 @@ class BbEditionControl {
 	 */
 	public function getEditionUrl($slug = '')
 	{
-		return get_bloginfo('url') . '/' . $this->postTypeId . '/' . trim($slug, '/');
+		return get_bloginfo('url') . '/' . $this->postTypeUri . '/' . trim($slug, '/');
 	}
 
 	/**
@@ -372,7 +378,7 @@ class BbEditionControl {
 	public function rewrite_rules($rules = array())
 	{
 		add_rewrite_rule(  
-        $this->postTypeId . '/(\S+)/?$',  
+        $this->postTypeUri . '/(\S+)/?$',  
         'index.php?post_type='.$this->postTypeId.'&edition_id=$matches[1]',  
         "top");
 

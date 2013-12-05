@@ -82,6 +82,11 @@ e.g.
 
 == Changelog ==
 
+= 1.2.1 =
+* Setting the post type as "edition-control" independent of the URI (post type slug)
+* So the template file is `archive-edition-control.php`
+
+
 = 1.2.0 =
 * Option to configure the URI to show editions
 * The same URI string defines a custom post type, so we can have a `archive-slug.php` template
