@@ -456,7 +456,7 @@ class BbEditionControlAdmin {
 		for($x = 0; $x < count($posttypes); $x++)
 		{
 			$pt = $posttypes[$x];
-			add_filter( 'manage_'.$pt.'_posts_columns', array( $this, 'filter_add_new_columns' ), 10, 2);			
+			add_filter( 'manage_'.$pt.'_posts_columns', array( $this, 'filter_add_new_columns' ), 10, 1);			
 		}
 	}
 
@@ -465,7 +465,7 @@ class BbEditionControlAdmin {
 	 *
 	 * @param array $columns Current columns on the list post
 	 */
-	public function filter_add_new_columns( $columns, $e ) {
+	public function filter_add_new_columns( $columns ) {
 		global $post;
 
 		// var_dump($post);

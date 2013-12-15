@@ -3,7 +3,7 @@ Contributors: Bruno Barros
 Donate link: http://brunobarros.com/
 Tags: edition, control. magazine, jornal
 Requires at least: 3.5.1
-Tested up to: 3.7.1
+Tested up to: 3.8
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -81,6 +81,9 @@ e.g.
 
 
 == Changelog ==
+
+= 1.2.2 =
+* Fixed a small bug of an unused second parameter of `filter_add_new_columns`
 
 = 1.2.1 =
 * Setting the post type as "edition-control" independent of the URI (post type slug)
