@@ -37,10 +37,10 @@
     <?php
 
     if(isset($list) && $list):
-
+        $i = 0;
         foreach ($list as $k => $item):
     ?>
-        <tr>
+        <tr class="<?php echo ($i%2 == 0) ? 'alternate' : '' ?>">
          <td><?php echo Date::pt($item->date)?></td>
          <td><?php echo $item->number?></td>
          <td><?php echo $item->name?></td>
@@ -55,6 +55,7 @@
         
 
     <?php 
+        $i++;
         endforeach;
 
     endif;
