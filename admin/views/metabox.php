@@ -15,7 +15,7 @@
 <?php if( count($e) == 0 ): ?>
 
 
-<a href="<?php echo $this->url()?>"><?php _e('Please create an edition first', $this->plugin_slug) ?>.</a><br />
+<a href="<?php echo $this->url('tab=new')?>"><?php _e('Please create an edition first', $this->plugin_slug) ?>.</a><br />
 
 <?php 
 else: 

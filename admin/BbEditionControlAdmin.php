@@ -219,6 +219,8 @@ class BbEditionControlAdmin {
 	/**
 	 * Register the administration menu for this plugin into the WordPress Dashboard menu.
 	 *
+	 * Se alterar a localização no menu, não esqueçer de atualizar $this->url();
+	 *
 	 * @since    1.0.0
 	 */
 	public function add_plugin_admin_menu() {
@@ -229,9 +231,7 @@ class BbEditionControlAdmin {
 		 * NOTE:  Alternative menu locations are available via WordPress administration menu functions.
 		 *
 		 *        Administration Menus: http://codex.wordpress.org/Administration_Menus
-		 *
-		 * @TODO:
-		 * - Translation on 'languages/'
+		 *        
 		 * - Change 'manage_options' to the capability you see fit
 		 *   For reference: http://codex.wordpress.org/Roles_and_Capabilities
 		 */
@@ -381,7 +381,7 @@ class BbEditionControlAdmin {
 	{
 		$pieces = (! is_array($value)) ? array($value) : $value;
 		$vals = '&' . implode('&', $pieces);
-		return $_SERVER['PHP_SELF'] . "?page=" . $this->plugin_slug . $vals;
+		return admin_url( 'options-general.php?page=' . $this->plugin_slug . $vals );
 	}
 
 	/**

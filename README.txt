@@ -82,6 +82,9 @@ e.g.
 
 == Changelog ==
 
+= 1.2.3 =
+* Fixed the method `BbEditionControlAdmin::url()` that points to plugin admin page
+
 = 1.2.2 =
 * Fixed a small bug of an unused second parameter of `filter_add_new_columns`
 * Add class `alternate` on list editions in admin page
