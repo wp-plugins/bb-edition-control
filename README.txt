@@ -78,6 +78,7 @@ e.g.
 1. List of editions
 2. Form to create new edition
 3. Plugin options
+4. Metabox on post edition
 
 
 == Changelog ==
