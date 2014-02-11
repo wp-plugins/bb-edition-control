@@ -88,7 +88,7 @@ e.g.
 * Add link to quick create a new edition row (just one click)
 * Add option to delete an edition
 * Add option to preformat the edition name when created by quick process
-* Change the way editions were ordered. Now is for 'number' field
+* Change the way editions were ordered. Now is by 'number' field
 * Add Str::slugify() to parse the edition slug when saving
 
 = 1.2.3 =
