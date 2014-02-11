@@ -52,12 +52,24 @@
                 <?php echo Str::postTypesCombo(get_option( 'bbec-posttypes', array('post') )); ?>
             </td>
         </tr>
+        <tr valign="top">
+            <th scope="row"><label for="field_edition_format"><?php _e('Edition name format', $this->plugin_slug)?></label>
+                <br>
+                <small><?php _e('Preformated string to quick create.', $this->plugin_slug)?></small>
+            </th>
+            <td>
+                <input type="text" name="edition_format" id="field_edition_format" class="input-large" value="<?php echo get_option( 'bbec-edition-format', 'Edition nº %number% - %day%/%month%/%year%' )?>">
+                <br>
+                <span class="light-txt">%number% %day% %month% %year%</span>
+            </td>
+        </tr>
           
         
         </table>
 
         <p class="submit">
             <input type="submit" name="Submit" class="button-primary" value="<?php _e('Save Changes', $this->plugin_slug ) ?>" />
+
         </p>
 
     </form>

@@ -20,6 +20,11 @@
         <input type="hidden" name="bb_add_new_hidden" value="Y">
         <input type="hidden" name="bb_referrer" value="<?php echo $this->form_action_url()?>">
 
+        <div class="well">
+            <a href="<?php echo $this->url('quickcreate=1')?>" class=""><?php _e('Quick edition create', $this->plugin_slug ) ?></a>
+            <span class="light-txt"> - <?php _e('Create a new edition with today date and the name prefotmated in Options', $this->plugin_slug ) ?></span>
+        </div>
+
     <table class="form-table">
  
         <tr valign="top">
@@ -29,32 +34,32 @@
             </td>
         </tr>
         <tr valign="top">
-            <th scope="row"><label for="field_date"><?php _e('Number', $this->plugin_slug)?></label></th>
+            <th scope="row"><label for="field_number"><?php _e('Number', $this->plugin_slug)?></label></th>
             <td>
                 <input type="number" name="number" id="field_number" class="small-text" value="">
             </td>
         </tr>
         <tr valign="top">
-            <th scope="row"><label for="field_date"><?php _e('Name', $this->plugin_slug)?></label> </th>
+            <th scope="row"><label for="field_name"><?php _e('Name', $this->plugin_slug)?></label> </th>
             <td>
                     <input type="text" name="name" id="field_name" class="regular-text" value="<?php _e('Edition', $this->plugin_slug)?>...">
                
             </td>
         </tr>
         <tr valign="top">
-            <th scope="row"><label for="field_date"><?php _e('Slug', $this->plugin_slug)?></label> </th>
+            <th scope="row"><label for="field_slug"><?php _e('Slug', $this->plugin_slug)?></label> </th>
             <td>
                <input type="text" name="slug" id="field_slug" class="regular-text" value="">
             </td>
         </tr>
         <tr valign="top">
-            <th scope="row"><label for="field_date"><?php _e('Description', $this->plugin_slug)?></label> </th>
+            <th scope="row"><label for="field_description"><?php _e('Description', $this->plugin_slug)?></label> </th>
             <td>
                <textarea name="description" id="field_description" class="regular-text" cols="30" rows="3"></textarea>
             </td>
         </tr>
         <tr valign="top">
-            <th scope="row"><label for="field_date"><?php _e('Status', $this->plugin_slug)?></label> </th>
+            <th scope="row"><label for="field_status"><?php _e('Status', $this->plugin_slug)?></label> </th>
             <td>
                <?php echo Str::statusCombo(0)?>
             </td>

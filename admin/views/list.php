@@ -10,6 +10,18 @@
  */
 ?>
 <div class="wrap">
+    
+    <?php if($r['pages'] > 1): ?>
+    <div class="tablenav">
+    <div class='tablenav-pages'>
+    <div class="pagination-links">
+        <?php for($x = 1; $x <= $r['pages']; $x++): ?>
+        <a href="<?php echo $this->url('tab=list&p='.$x) ?>" class="<?php echo ($x==$r['page'])?'active':'' ?>"><?php echo $x ?></a>
+        <?php endfor; ?>
+    </div>   
+    </div>
+    </div>
+    <?php endif; ?>
 
  
     <table class="widefat">
@@ -36,9 +48,9 @@
     <tbody>       
     <?php
 
-    if(isset($list) && $list):
+    if(isset($r['rows']) && $r['rows']):
         $i = 0;
-        foreach ($list as $k => $item):
+        foreach ($r['rows'] as $k => $item):
     ?>
         <tr class="<?php echo ($i%2 == 0) ? 'alternate' : '' ?>">
          <td><?php echo Date::pt($item->date)?></td>
@@ -63,16 +75,17 @@
     </tbody>
     </table>
 
-    <!-- <div class="tablenav">
+    <?php if($r['pages'] > 1): ?>
+    <div class="tablenav">
     <div class='tablenav-pages'>
     <div class="pagination-links">
-            
-        <a href="#">1</a>
-        <a href="#">2</a>
-        <a href="#">3</a>
+        <?php for($x = 1; $x <= $r['pages']; $x++): ?>
+        <a href="<?php echo $this->url('tab=list&p='.$x) ?>" class="<?php echo ($x==$r['page'])?'active':'' ?>"><?php echo $x ?></a>
+        <?php endfor; ?>
     </div>   
     </div>
-    </div> -->
+    </div>
+    <?php endif; ?>
 
 
 

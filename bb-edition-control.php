@@ -12,7 +12,7 @@
  * Plugin Name:       BB Edition Control
  * Plugin URI:        http://wordpress.org/plugins/bb-edition-control/
  * Description:       Plugin para categorizar todo conteúdo em edições, como em um jornal.
- * Version:           1.2.3
+ * Version:           1.3.0
  * Author:            Bruno Barros
  * Author URI:        http://brunobarros.com
  * Text Domain:       bb-edition-control

@@ -254,6 +254,12 @@ class BbEditionControlAdmin {
 
 		include_once('views/tabs.php');
 
+		// mendagem para remoção de uma edição
+		if(isset($_GET['delete']) && is_numeric($_GET['delete']))
+		{
+			echo "delete";
+		}
+
 		if( $this->getTab() == 'edit' )
 		{
 			$item = $this->DB->get($_GET['edit']);
@@ -267,9 +273,15 @@ class BbEditionControlAdmin {
 		{
 			include_once( 'views/options.php' );
 		}
+		else if( $this->getTab() == 'delete' )
+		{
+			$item = $this->DB->get($_GET['id']);
+			include_once( 'views/delete.php' );
+		}
 		else
 		{
-			$list = $this->DB->getAll();
+			$r = $this->DB->getAllPaginated(isset($_GET['p']) ?$_GET['p']: 1);
+			// $this->dd($list);
 			include_once( 'views/list.php' );
 		}
 
@@ -337,6 +349,39 @@ class BbEditionControlAdmin {
 				echo $this->message($e->getMessage(), 'error');
 			}
 		}
+		// cria uma edição no modo rápido
+		else if(isset($_GET['quickcreate']) && $_GET['quickcreate'] == 1)
+		{
+			try{
+				$generatedData = $this->DB->createQuickNewEdition();				
+				// $this->dd($generatedData);
+				$save = $this->DB->saveNewEdition($generatedData);
+				if( $save )
+				{
+					echo $this->message('Edition saved', 'updated');
+				}
+			} catch (Exception $e) {
+				echo $this->message($e->getMessage(), 'error');
+			}
+			wp_redirect( $this->url() );
+			exit;
+		}
+		// exclui 
+		else if(isset($_POST['bb_delete_hidden']) && $_POST['bb_delete_hidden'] === 'Y')
+		{
+			try{
+				$del = $this->DB->removeEdition($_POST['bb_delete_id']);
+				if( $del )
+				{
+					echo $this->message('Edition removed', 'updated');
+				}
+			} catch (Exception $e) {
+				echo $this->message($e->getMessage(), 'error');
+			}
+			wp_redirect( $this->url() );
+			exit;
+		}
+		
 	}
 
 
@@ -377,6 +422,11 @@ class BbEditionControlAdmin {
 		// @TODO: Define your filter hook callback here
 	}
 
+	/**
+	 * Retorna o endereço do plugin da administração e adiciona parâmetros
+	 * @param  string $value 
+	 * @return string
+	 */
 	public function url($value='')
 	{
 		$pieces = (! is_array($value)) ? array($value) : $value;

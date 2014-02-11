@@ -3,7 +3,7 @@ Contributors: Bruno Barros
 Donate link: http://brunobarros.com/
 Tags: edition, control. magazine, jornal
 Requires at least: 3.5.1
-Tested up to: 3.8
+Tested up to: 3.8.1
 Stable tag: trunk
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -82,6 +82,14 @@ e.g.
 
 
 == Changelog ==
+
+= 1.3.0 =
+* Add pagination when listing editions (40 per page)
+* Add link to quick create a new edition row (just one click)
+* Add option to delete an edition
+* Add option to preformat the edition name when created by quick process
+* Change the way editions were ordered. Now is for 'number' field
+* Add Str::slugify() to parse the edition slug when saving
 
 = 1.2.3 =
 * Fixed the method `BbEditionControlAdmin::url()` that points to plugin admin page

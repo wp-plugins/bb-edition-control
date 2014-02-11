@@ -42,7 +42,7 @@ class Str {
             'is_category' => 'Category',
             'is_search' => 'Search',
             'is_tag' => 'Tags',
-        );
+            );
         
         return self::multiple('templates', $options, $selected);
     }
@@ -79,6 +79,60 @@ class Str {
         $h .= '</select>';
 
         return $h;
+    }
+
+    /**
+     * Recebe a string com o formato da edição e troca os curingas pelos valores informados.
+     * 
+     * @param  string $format 
+     * @param  array  $values 
+     * @return string
+     */
+    static public function parseFormatEdition($format = '', $values = array())
+    {
+        if(isset($values['number']))
+        {
+            $format = str_replace('%number%', $values['number'], $format);
+        }
+        if(isset($values['day']))
+        {
+            $format = str_replace('%day%', $values['day'], $format);
+        }
+        if(isset($values['month']))
+        {
+            $format = str_replace('%month%', $values['month'], $format);
+        }
+        if(isset($values['year']))
+        {
+            $format = str_replace('%year%', $values['year'], $format);
+        }
+        return $format;
+    }
+
+
+    static public function slugify($text)
+    { 
+    // replace non letter or digits by -
+        $text = preg_replace('~[^\\pL\d]+~u', '-', $text);
+
+    // trim
+        $text = trim($text, '-');
+
+    // transliterate
+        $text = iconv('utf-8', 'us-ascii//TRANSLIT', $text);
+
+    // lowercase
+        $text = strtolower($text);
+
+    // remove unwanted characters
+        $text = preg_replace('~[^-\w]+~', '', $text);
+
+        if (empty($text))
+        {
+            return 'n-a';
+        }
+
+        return $text;
     }
 
 }
