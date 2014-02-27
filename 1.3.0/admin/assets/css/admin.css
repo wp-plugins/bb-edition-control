@@ -1,0 +1,44 @@
+/* This stylesheet is used to style the admin option form of the plugin. */
+
+.regular-text{
+    width: 80%;
+}
+
+.wp-admin select[multiple]{
+    width: 25%;
+height: 100px;
+}
+
+.light-txt{
+    color:#B4B4B4;
+}
+
+.input-small{
+    width:20%;
+}
+
+.input-medium{
+    width:50%;
+}
+
+.input-large{
+    width:90%;
+}
+
+.well{
+    border: #D8D2D2 solid 1px;
+padding: 10px;
+background-color: #F8F8F8;
+}
+
+.text-right{
+    text-align: right;
+}
+
+.danger-link{
+    color:red;
+    float:right;
+}
+
+.pagination-links .active{background-color: #888 !important;
+color: #fff;}
