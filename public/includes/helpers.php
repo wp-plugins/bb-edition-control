@@ -55,3 +55,15 @@ if(! function_exists('bbec_latest_edition'))
         }
     }
 }
+
+if(! function_exists('bbed_editions_li'))
+{
+    function bbed_editions_li()
+    {
+
+        $bbec = BbEditionControl::get_instance();
+        $lis = $bbec->shortcode_editions_list_li();
+
+        return $lis;
+    }
+}

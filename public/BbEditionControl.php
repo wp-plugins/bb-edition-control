@@ -97,6 +97,7 @@ class BbEditionControl {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 		add_shortcode('bbec-list', array( $this, 'shortcode_editions_list' ) );
+		add_shortcode('bbec-list-li', array( $this, 'shortcode_editions_list_li' ) );
 		add_shortcode('bbec-combo', array( $this, 'shortcode_editions_combo' ) );
 		add_shortcode('bbec-active-name', array( $this, 'shortcode_active_name' ) );
 
@@ -512,11 +513,11 @@ class BbEditionControl {
 	 */
 	public function shortcode_editions_list($atts)
 	{
-		$editions = $this->DB->getActive();
+		// $editions = $this->DB->getActive();
 
-		if( count($editions) === 0 ){
-			return '';
-		}
+		// if( count($editions) === 0 ){
+		// 	return '';
+		// }
 
 		$opt = array_merge(array(
 			'id' => '',
@@ -527,13 +528,40 @@ class BbEditionControl {
 
 		$h = "<ul {$id} class=\"{$opt['class']}\">";
 
+		$h .= $this->shortcode_editions_list_li();
+
+		// foreach ($editions as $e):
+
+		// 	$h .= "<li><a href=\"{$this->getEditionUrl($e->slug)}\">{$e->name}</a></li>";
+
+		// endforeach;
+
+		$h .= '</ul>';
+		return $h;
+	}
+
+
+	public function shortcode_editions_list_li($atts = array())
+	{
+		$editions = $this->DB->getActive();
+
+		if( count($editions) === 0 ){
+			return '';
+		}
+
+		$opt = array_merge(array(
+			'a_class' => '',
+			'li_class' => '',
+		), (array)$atts);
+
+		$h = "";
+
 		foreach ($editions as $e):
 
-			$h .= "<li><a href=\"{$this->getEditionUrl($e->slug)}\">{$e->name}</a></li>";
+			$h .= "<li class=\"{$opt['li_class']}\"><a href=\"{$this->getEditionUrl($e->slug)}\" class=\"{$opt['a_class']}\">{$e->name}</a></li>";
 
 		endforeach;
 
-		$h .= '</ul>';
 		return $h;
 	}
 
@@ -542,7 +570,7 @@ class BbEditionControl {
 	 * @param  array $atts Opções
 	 * @return string
 	 */
-	public function shortcode_editions_combo($atts)
+	public function shortcode_editions_combo($atts = array())
 	{
 		$editions = $this->DB->getActive();
 
