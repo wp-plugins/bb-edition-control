@@ -399,16 +399,16 @@ class BbEditionControl {
 	 */
 	public function filter_pre_get_posts($query)
 	{
-		if(! is_admin() && $query->is_main_query() ){
-		// echo "<pre>"; 
-		// var_dump( is_front_page() );
-		// echo "</pre>";
-		}
+		
+		$qs = parse_query_string();
+	
+		$pageOfEditionsFilter = (isset($qs[0]) && $qs[0] == $this->postTypeUri) ? true : false;
+
 		$query->set( 'is_by_edition', false );
 		if (! is_admin() 
 			&& ! is_singular() 
 			&& $query->is_main_query() 
-			&& ($this->checkValidTemplate($query) || is_archive($this->postTypeId) ) 
+			&& ($this->checkValidTemplate($query) || $pageOfEditionsFilter ) 
 		) {
 
 			$edition = $this->getEdition();			

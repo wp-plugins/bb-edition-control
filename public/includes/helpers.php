@@ -67,3 +67,30 @@ if(! function_exists('bbed_editions_li'))
         return $lis;
     }
 }
+
+
+if(! function_exists('parse_query_string'))
+{   
+    /**
+     * Retorna um array com a query string removido as pastas de instalação do WP
+     * @return array
+     */
+    function parse_query_string()
+    {
+        $uri = trim($_SERVER['REQUEST_URI'], '/');
+        $aUri = explode('/', $uri);
+
+        $bUrl = explode('/', get_bloginfo('url'));
+
+        $fArray = array();
+
+        foreach ($aUri as $u) {
+                if(! in_array($u, $bUrl))
+                {
+                    $fArray[] = $u;
+                }
+        }
+
+        return $fArray;
+    }
+}
