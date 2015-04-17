@@ -66,6 +66,10 @@ Plugin para categorizar todo conteúdo em edições, como em um jornal.
 
 == Changelog ==
 
+= 1.3.6 =
+* Added actions to editions common actions
+* Changed the editions order by 'date' instead of 'number'
+
 = 1.3.4 =
 * Fix small translations
 * Now unpublished editions will show up on post metabox tagged as (Not published)

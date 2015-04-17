@@ -52,7 +52,7 @@ class BbEditionControlDb {
     {
         global $wpdb;
         // get last edition
-        $l = $wpdb->get_results("SELECT * FROM {$this->getTable()} ORDER BY number DESC LIMIT 1");
+        $l = $wpdb->get_results("SELECT * FROM {$this->getTable()} ORDER BY date DESC LIMIT 1");
         self::$latest = $l[0];
         $last = $this->getLatest();
         // get preformated name
@@ -206,7 +206,7 @@ class BbEditionControlDb {
     {
         global $wpdb;
 
-        $l = $wpdb->get_results("SELECT * FROM {$this->getTable()} ORDER BY date DESC, date DESC");
+        $l = $wpdb->get_results("SELECT * FROM {$this->getTable()} ORDER BY date DESC, number DESC");
 
         return $l;
 
@@ -226,7 +226,7 @@ class BbEditionControlDb {
         $start = ($page - 1) * $perPage;
 
         $total = $wpdb->get_var("SELECT COUNT(*) FROM {$this->getTable()}");
-        $rows = $wpdb->get_results("SELECT * FROM {$this->getTable()} ORDER BY date DESC, date DESC LIMIT {$start},{$perPage}");
+        $rows = $wpdb->get_results("SELECT * FROM {$this->getTable()} ORDER BY date DESC, number DESC LIMIT {$start},{$perPage}");
 
         return array(
             'total' => $total,
