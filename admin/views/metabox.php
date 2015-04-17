@@ -23,8 +23,11 @@ else:
     echo '<select name="bb_edition_control_selected" id="bb_edition_control_selected" style="width:100%">';
     foreach ($e as $ed):
 
+		$stt = ($ed->status == 1) ? '': ' ('.__('Not public', $this->plugin_slug).')';
 ?>    
-    <option value="<?php echo $ed->id?>" <?php echo ($ed->id == $pe) ? 'selected' : ''?>><?php echo $ed->name?></option>
+    <option value="<?php echo $ed->id?>" <?php echo ($ed->id == $pe) ? 'selected' : ''?>>
+		<?php echo $ed->name?> <?php echo $stt?>
+	</option>
 <?php 
     endforeach;
     echo '</select>';

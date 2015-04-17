@@ -208,7 +208,8 @@ class BbEditionControlAdmin {
 	{
 		global $wpdb, $post;
 
-		$e = $this->DB->getActive();
+//		$e = $this->DB->getActive();
+		$e = $this->DB->getAll();
 		$pe = $this->DB->getPostEditionId($post);
 		// $this->dd($pe);
 

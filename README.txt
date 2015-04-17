@@ -56,6 +56,10 @@ Plugin para categorizar todo conteúdo em edições, como em um jornal.
 
 == Changelog ==
 
+= 1.3.4 =
+* Fix small translations
+* Now unpublished editions will show up on post metabox tagged as (Not published)
+
 = 1.3.3 =
 * Update/fix admin messages to WP 4.1
 

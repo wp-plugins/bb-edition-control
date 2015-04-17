@@ -9,23 +9,28 @@
  * @link      https://github.com/bruno-barros/BB-Edition-Control-for-Wordpress
  * @copyright 2013 Bruno Barros
  */
+
 class Str {
 
     static function statusLbl($value='')
     {
         $label = '';
 
-        if($value == 1) $label = 'Publicado';
-        if($value == 0) $label = 'Não publicado';
+		$bb = BbEditionControl::get_instance();
+
+		if($value == 1) $label = __('Public', $bb->get_plugin_slug());
+        if($value == 0) $label = __('Not public', $bb->get_plugin_slug());
 
         return $label;
     }
 
     static function statusCombo($selected = 1)
     {
+		$bb = BbEditionControl::get_instance();
+
         $h = "<select name=\"status\" id=\"field_status\">";
-        $h .= "<option value=\"1\" ".( ($selected == 1)?'selected':'').">Publicado</option>";
-        $h .= "<option value=\"0\" ".( ($selected == 0)?'selected':'' ).">Não publicado</option>";
+        $h .= "<option value=\"1\" ".( ($selected == 1)?'selected':'').">".__('Public', $bb->get_plugin_slug())."</option>";
+        $h .= "<option value=\"0\" ".( ($selected == 0)?'selected':'' ).">".__('Not public', $bb->get_plugin_slug())."</option>";
         $h .= '</select>';
 
         return $h;
