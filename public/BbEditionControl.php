@@ -23,11 +23,11 @@ class BbEditionControl
     /**
      * Plugin version, used for cache-busting of style and script file references.
      *
-     * @since   1.3.4
+     * @since   1.3.5
      *
      * @var     string
      */
-    const VERSION = '1.3.4';
+    const VERSION = '1.3.5';
 
     /**
      * Unique identifier for your plugin.

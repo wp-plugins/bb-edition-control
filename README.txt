@@ -38,6 +38,16 @@ Plugin para categorizar todo conteúdo em edições, como em um jornal.
     // Returns the latest edition object, or a specific field.
     bbec_latest_edition( $field = null )
 
+= Actions =
+
+	'bbec_edition_created' when a new edition is created
+
+	'bbec_edition_updated' when a edition is updated. accepts the edition ID as argument
+
+	'bbec_options_updated' when options are updated. accepts the POST data as argument
+
+	'bbec_edition_deleted' when a edition is removed. accepts the edition ID as argument
+
 
 = Languages = 
 - English (default)

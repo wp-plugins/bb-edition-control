@@ -318,6 +318,7 @@ class BbEditionControlAdmin {
 				if( $save )
 				{
 					$this->message('Edition saved', 'updated');
+					do_action('bbec_edition_created');
 				}
 			} catch (Exception $e) {
 				$this->message($e->getMessage(), 'error');
@@ -331,6 +332,7 @@ class BbEditionControlAdmin {
 				if( $save )
 				{
 					$this->message('Edition saved', 'updated');
+					do_action('bbec_edition_updated', $_POST['bb_update_id']);
 				}
 			} catch (Exception $e) {
 				$this->message($e->getMessage(), 'error');
@@ -345,6 +347,7 @@ class BbEditionControlAdmin {
 				if( $save )
 				{
 					$this->message('Options saved', 'updated');
+					do_action('bbec_options_updated', $_POST);
 				}
 			} catch (Exception $e) {
 				$this->message($e->getMessage(), 'error');
@@ -360,6 +363,7 @@ class BbEditionControlAdmin {
 				if( $save )
 				{
 					$this->message('Edition saved', 'updated');
+					do_action('bbec_edition_created');
 				}
 			} catch (Exception $e) {
 				$this->message($e->getMessage(), 'error');
@@ -375,6 +379,7 @@ class BbEditionControlAdmin {
 				if( $del )
 				{
 					$this->message('Edition removed', 'updated');
+					do_action('bbec_edition_deleted', $_POST['bb_delete_id']);
 				}
 			} catch (Exception $e) {
 				$this->message($e->getMessage(), 'error');
