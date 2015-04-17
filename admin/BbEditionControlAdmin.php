@@ -316,10 +316,10 @@ class BbEditionControlAdmin {
 				$save = $this->DB->saveNewEdition($_POST);
 				if( $save )
 				{
-					echo $this->message('Edition saved', 'updated');
+					$this->message('Edition saved', 'updated');
 				}
 			} catch (Exception $e) {
-				echo $this->message($e->getMessage(), 'error');
+				$this->message($e->getMessage(), 'error');
 			}
 		}
 		// editando uma edição
@@ -329,10 +329,10 @@ class BbEditionControlAdmin {
 				$save = $this->DB->updateEdition($_POST['bb_update_id'], $_POST);
 				if( $save )
 				{
-					echo $this->message('Edition saved', 'updated');
+					$this->message('Edition saved', 'updated');
 				}
 			} catch (Exception $e) {
-				echo $this->message($e->getMessage(), 'error');
+				$this->message($e->getMessage(), 'error');
 			}			
 		}
 		// atualiza opções do plugin
@@ -343,10 +343,10 @@ class BbEditionControlAdmin {
 				$save = $this->DB->saveOptions($_POST);
 				if( $save )
 				{
-					echo $this->message('Options saved', 'updated');
+					$this->message('Options saved', 'updated');
 				}
 			} catch (Exception $e) {
-				echo $this->message($e->getMessage(), 'error');
+				$this->message($e->getMessage(), 'error');
 			}
 		}
 		// cria uma edição no modo rápido
@@ -358,10 +358,10 @@ class BbEditionControlAdmin {
 				$save = $this->DB->saveNewEdition($generatedData);
 				if( $save )
 				{
-					echo $this->message('Edition saved', 'updated');
+					$this->message('Edition saved', 'updated');
 				}
 			} catch (Exception $e) {
-				echo $this->message($e->getMessage(), 'error');
+				$this->message($e->getMessage(), 'error');
 			}
 			wp_redirect( $this->url() );
 			exit;
@@ -373,10 +373,10 @@ class BbEditionControlAdmin {
 				$del = $this->DB->removeEdition($_POST['bb_delete_id']);
 				if( $del )
 				{
-					echo $this->message('Edition removed', 'updated');
+					$this->message('Edition removed', 'updated');
 				}
 			} catch (Exception $e) {
-				echo $this->message($e->getMessage(), 'error');
+				$this->message($e->getMessage(), 'error');
 			}
 			wp_redirect( $this->url() );
 			exit;
@@ -480,7 +480,10 @@ class BbEditionControlAdmin {
 	 */
 	public function message($msg = 'Edition saved', $type = 'updated')
 	{
-		return "<div id=\"message\" class=\"{$type}\"><p><strong>".__($msg, $this->plugin_slug )."</strong></p></div>  ";
+		add_action( 'admin_notices', function() use ($msg, $type){
+			echo "<div id=\"message\" class=\"{$type}\"><p><strong>".__($msg, $this->plugin_slug )
+				."</strong></p></div>  ";
+		} );
 	}
 	
 

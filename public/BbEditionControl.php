@@ -23,11 +23,11 @@ class BbEditionControl
     /**
      * Plugin version, used for cache-busting of style and script file references.
      *
-     * @since   1.0.0
+     * @since   1.3.0
      *
      * @var     string
      */
-    const VERSION = '1.0.0';
+    const VERSION = '1.3.0';
 
     /**
      * Unique identifier for your plugin.
@@ -480,9 +480,9 @@ class BbEditionControl
         else
         {
             // verifica se a url tem uma edição
-            if (get_query_var('edition_id'))
+            if ($editionId = get_query_var('edition_id'))
             {
-                $edition = $this->DB->get(get_query_var('edition_id'));
+                $edition = $this->DB->get($editionId);
 
                 // para se sertificar de não haver retorno de erro com uma slug incorreta
                 if (is_null($edition))
